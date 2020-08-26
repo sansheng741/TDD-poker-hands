@@ -34,7 +34,7 @@ public class DemoTest {
   }
 
   @Test
-  public void should_return_pair_when_judge_card_type_give_3H4H5H6H7H() {
+  public void should_return_straight_flush_when_judge_card_type_give_3H4H5H6H7H() {
     //given
     String card = "3H 4H 5H 6H 7H";
     //when
@@ -64,6 +64,17 @@ public class DemoTest {
     PokerLevel pokerLevel = pokerGame.judgeCardType(card);
     //then
     assertEquals(pokerLevel.getCardType(), "Full House");
+  }
+
+  @Test
+  public void should_return_flush_when_judge_card_type_give_2H3H5H9HKH() {
+    //given
+    String card = "2H 3H 5H 9H KH";
+    //when
+    PokerGame pokerGame = new PokerGame();
+    PokerLevel pokerLevel = pokerGame.judgeCardType(card);
+    //then
+    assertEquals(pokerLevel.getCardType(), "Flush");
   }
 
 }

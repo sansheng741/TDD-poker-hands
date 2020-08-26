@@ -21,6 +21,8 @@ public class PokerGame {
       return PokerLevel.FOUR_OF_A_KIND;
     } else if(isFullHouse(cards)){
       return PokerLevel.FULL_HOUSE;
+    } else if(isFlush(cards)){
+      return PokerLevel.FLUSH;
     }
 
     return PokerLevel.HIGH_CARD;
