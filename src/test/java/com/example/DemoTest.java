@@ -120,4 +120,15 @@ public class DemoTest {
     //then
     assertEquals(pokerLevel.getCardType(), "Pair");
   }
+
+  @Test
+  public void should_return_high_card_when_judge_card_type_give_2H3D5S9CKD() {
+    //given
+    String card = "2H 3D 5S 9C KD";
+    //when
+    PokerGame pokerGame = new PokerGame();
+    PokerLevel pokerLevel = pokerGame.judgeCardType(card);
+    //then
+    assertEquals(pokerLevel.getCardType(), "High Card");
+  }
 }

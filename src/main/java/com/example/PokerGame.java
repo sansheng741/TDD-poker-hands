@@ -31,9 +31,9 @@ public class PokerGame {
       return PokerLevel.TWO_PAIRS;
     } else if(isPair(cards)){
       return PokerLevel.PAIR;
+    } else {
+      return PokerLevel.HIGH_CARD;
     }
-
-    return PokerLevel.HIGH_CARD;
   }
 
   private boolean isPair(List<Card> cards) {
