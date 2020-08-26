@@ -87,4 +87,15 @@ public class DemoTest {
     //then
     assertEquals(pokerLevel.getCardType(), "Straight");
   }
+
+  @Test
+  public void should_return_flush_when_judge_card_type_give_3H3D5S9C3D() {
+    //given
+    String card = "3H 3D 5S 9C 3D";
+    //when
+    PokerGame pokerGame = new PokerGame();
+    PokerLevel pokerLevel = pokerGame.judgeCardType(card);
+    //then
+    assertEquals(pokerLevel.getCardType(), "three of a Kind");
+  }
 }

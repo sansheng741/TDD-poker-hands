@@ -25,9 +25,24 @@ public class PokerGame {
       return PokerLevel.FLUSH;
     } else if(isStraight(cards)){
       return  PokerLevel.STRAIGHT;
+    } else if(isThreeOfaKind(cards)){
+      return  PokerLevel.THREE_OF_A_KIND;
     }
 
     return PokerLevel.HIGH_CARD;
+  }
+
+  private boolean isThreeOfaKind(List<Card> cards) {
+    ArrayList<List<Card>> lists = new ArrayList<>(cards.stream()
+        .collect(Collectors.groupingBy(Card::getNumber))
+        .values());
+    int maxNumber = 0;
+    for (List<Card> list : lists) {
+      if(list.size() > maxNumber){
+        maxNumber = list.size();
+      }
+    }
+    return maxNumber == 3;
   }
 
   private boolean isFullHouse(List<Card> cards) {
