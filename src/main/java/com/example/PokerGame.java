@@ -50,7 +50,16 @@ public class PokerGame {
     if (pokerLevel.getCardType().equals(UtilConstants.THREE_OF_A_KIND)
         || pokerLevel.getCardType().equals(UtilConstants.FULL_HOUSE)
         || pokerLevel.getCardType().equals(UtilConstants.FOUR_OF_A_KIND)) {
-      return UtilConstants.TIE;
+      ArrayList<List<Card>> blackCountCards = countCards(blackCardList);
+      ArrayList<List<Card>> whiteCountCards = countCards(whiteCardList);
+      for (int i = 0; i < blackCountCards.size(); i++) {
+        if (!blackCountCards.get(i).get(0).getNumber()
+            .equals(whiteCountCards.get(i).get(0).getNumber())) {
+          blackMaxNumber = Integer.parseInt(blackCountCards.get(i).get(0).getNumber());
+          whiteMaxNumber = Integer.parseInt(whiteCountCards.get(i).get(0).getNumber());
+          break;
+        }
+      }
     }
     if (pokerLevel.getCardType().equals(UtilConstants.TWO_PAIRS)
         || pokerLevel.getCardType().equals(UtilConstants.PAIR)) {
