@@ -29,23 +29,38 @@ public class PokerGame {
       return  PokerLevel.THREE_OF_A_KIND;
     } else if(isTwoPairs(cards)){
       return PokerLevel.TWO_PAIRS;
+    } else if(isPair(cards)){
+      return PokerLevel.PAIR;
     }
 
     return PokerLevel.HIGH_CARD;
   }
 
+  private boolean isPair(List<Card> cards) {
+    ArrayList<List<Card>> lists = countCards(cards);
+    int maxNumber = 0;
+    for (List<Card> list : lists) {
+      if(list.size() > maxNumber){
+        maxNumber = list.size();
+      }
+    }
+    return maxNumber == 2;
+  }
+
   private boolean isTwoPairs(List<Card> cards) {
-    ArrayList<List<Card>> lists = new ArrayList<>(cards.stream()
-        .collect(Collectors.groupingBy(Card::getNumber))
-        .values());
+    ArrayList<List<Card>> lists = countCards(cards);
 
     return lists.get(0).size() == 2 && lists.get(1).size() == 2;
   }
 
-  private boolean isThreeOfaKind(List<Card> cards) {
-    ArrayList<List<Card>> lists = new ArrayList<>(cards.stream()
+  private ArrayList<List<Card>> countCards(List<Card> cards) {
+    return new ArrayList<>(cards.stream()
         .collect(Collectors.groupingBy(Card::getNumber))
         .values());
+  }
+
+  private boolean isThreeOfaKind(List<Card> cards) {
+    ArrayList<List<Card>> lists = countCards(cards);
     int maxNumber = 0;
     for (List<Card> list : lists) {
       if(list.size() > maxNumber){
@@ -56,16 +71,12 @@ public class PokerGame {
   }
 
   private boolean isFullHouse(List<Card> cards) {
-    ArrayList<List<Card>> lists = new ArrayList<>(cards.stream()
-        .collect(Collectors.groupingBy(Card::getNumber))
-        .values());
+    ArrayList<List<Card>> lists = countCards(cards);
     return (lists.get(0).size() == 3 && lists.get(1).size() == 2) || (lists.get(0).size() == 2 && lists.get(1).size() == 3);
   }
 
   private boolean isFourOfaKind(List<Card> cards) {
-    ArrayList<List<Card>> lists = new ArrayList<>(cards.stream()
-        .collect(Collectors.groupingBy(Card::getNumber))
-        .values());
+    ArrayList<List<Card>> lists = countCards(cards);
     int maxNumber = 0;
     for (List<Card> list : lists) {
       if(list.size() > maxNumber){
