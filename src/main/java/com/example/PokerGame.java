@@ -89,23 +89,29 @@ public class PokerGame {
 
     if (isFlush(cards) && isStraight(cards)) {
       return PokerLevel.STRAIGHT_FLUSH;
-    } else if (isFourOfaKind(cards)) {
-      return PokerLevel.FOUR_OF_A_KIND;
-    } else if (isFullHouse(cards)) {
-      return PokerLevel.FULL_HOUSE;
-    } else if (isFlush(cards)) {
-      return PokerLevel.FLUSH;
-    } else if (isStraight(cards)) {
-      return PokerLevel.STRAIGHT;
-    } else if (isThreeOfaKind(cards)) {
-      return PokerLevel.THREE_OF_A_KIND;
-    } else if (isTwoPairs(cards)) {
-      return PokerLevel.TWO_PAIRS;
-    } else if (isPair(cards)) {
-      return PokerLevel.PAIR;
-    } else {
-      return PokerLevel.HIGH_CARD;
     }
+    if (isFourOfaKind(cards)) {
+      return PokerLevel.FOUR_OF_A_KIND;
+    }
+    if (isFullHouse(cards)) {
+      return PokerLevel.FULL_HOUSE;
+    }
+    if (isFlush(cards)) {
+      return PokerLevel.FLUSH;
+    }
+    if (isStraight(cards)) {
+      return PokerLevel.STRAIGHT;
+    }
+    if (isThreeOfaKind(cards)) {
+      return PokerLevel.THREE_OF_A_KIND;
+    }
+    if (isTwoPairs(cards)) {
+      return PokerLevel.TWO_PAIRS;
+    }
+    if (isPair(cards)) {
+      return PokerLevel.PAIR;
+    }
+    return PokerLevel.HIGH_CARD;
   }
 
   private boolean isPair(List<Card> cards) {
