@@ -1,6 +1,7 @@
 package com.example;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -14,16 +15,27 @@ public class PokerGame {
     List<Card> cards = strConvertCards(card);
     getPokerNumber(cards);
 
-    boolean flush = isFlush(cards);
-    boolean straight = isStraight(cards);
-
-    if(flush && straight){
+    if (isFlush(cards) && isStraight(cards)) {
       return PokerLevel.STRAIGHT_FLUSH;
+    } else if (isFourOfaKind(cards)) {
+      return PokerLevel.FOUR_OF_A_KIND;
     }
 
     return PokerLevel.HIGH_CARD;
   }
 
+  private boolean isFourOfaKind(List<Card> cards) {
+    ArrayList<List<Card>> lists = new ArrayList<>(cards.stream()
+        .collect(Collectors.groupingBy(Card::getNumber))
+        .values());
+    int maxNumber = 0;
+    for (List<Card> list : lists) {
+      if(list.size() > maxNumber){
+        maxNumber = list.size();
+      }
+    }
+    return maxNumber == 4;
+  }
 
 
   private boolean isStraight(List<Card> cards) {
@@ -31,8 +43,9 @@ public class PokerGame {
       return c1.getNumber().compareToIgnoreCase(c2.getNumber());
     }).collect(
         Collectors.toList());
-    for(int i = 0; i < collect.size() - 1; i++){
-      if(Integer.parseInt(collect.get(i).getNumber()) + 1 != Integer.parseInt(collect.get(i+1).getNumber())){
+    for (int i = 0; i < collect.size() - 1; i++) {
+      if (Integer.parseInt(collect.get(i).getNumber()) + 1 != Integer
+          .parseInt(collect.get(i + 1).getNumber())) {
         return false;
       }
     }

@@ -30,19 +30,29 @@ public class DemoTest {
     PokerGame pokerGame = new PokerGame();
     PokerLevel pokerLevel = pokerGame.judgeCardType(card);
     //then
-    assertEquals(pokerLevel.getCardType(),"High Card");
+    assertEquals(pokerLevel.getCardType(), "High Card");
   }
 
   @Test
-  public void should_return_pair_when_judge_card_type_give_3H4H5H6H7H(){
-     //given
-     String card = "3H 4H 5H 6H 7H";
-     //when
-     PokerGame pokerGame = new PokerGame();
+  public void should_return_pair_when_judge_card_type_give_3H4H5H6H7H() {
+    //given
+    String card = "3H 4H 5H 6H 7H";
+    //when
+    PokerGame pokerGame = new PokerGame();
     PokerLevel pokerLevel = pokerGame.judgeCardType(card);
     //then
-    assertEquals(pokerLevel.getCardType(),"Straight flush");
+    assertEquals(pokerLevel.getCardType(), "Straight flush");
   }
 
+  @Test
+  public void should_return_four_of_a_kind_when_judge_card_type_give_3H3D3S5C3D() {
+    //given
+    String card = "3H 3D 3S 5C 3D";
+    //when
+    PokerGame pokerGame = new PokerGame();
+    PokerLevel pokerLevel = pokerGame.judgeCardType(card);
+    //then
+    assertEquals(pokerLevel.getCardType(), "Four of a Kind");
+  }
 
 }
