@@ -21,53 +21,65 @@ public class PokerGame {
     if (whiteCardLevel.getLevel() < blackCardLevel.getLevel()) {
       return UtilConstants.BLACK_WINS;
     }
-   return compareNumber(blackCard, whiteCard, blackCardLevel);
+    return compareNumber(blackCard, whiteCard, blackCardLevel);
   }
 
   private String compareNumber(String blackCard, String whiteCard, PokerLevel pokerLevel) {
-    List<Card> blackCardList = strConvertCards(blackCard);
-    getPokerNumber(blackCardList);
-    List<Card> whiteCardList = strConvertCards(whiteCard);
-    getPokerNumber(whiteCardList);
+    int blackMaxNumber = 0, whiteMaxNumber = 0;
+    List<Card> blackCardList = beforeCompare(blackCard);
+    List<Card> whiteCardList = beforeCompare(whiteCard);
     if (pokerLevel.getCardType().equals(UtilConstants.HIGH_CARD)
         || pokerLevel.getCardType().equals(UtilConstants.STRAIGHT)
         || pokerLevel.getCardType().equals(UtilConstants.FLUSH)
         || pokerLevel.getCardType().equals(UtilConstants.STRAIGHT_FLUSH)) {
       //只需判断最大的牌
-      List<Card> blackList = blackCardList
-          .stream()
-          .sorted((c1, c2) -> Integer.parseInt(c2.getNumber()) - Integer.parseInt(c1.getNumber()))
-          .collect(Collectors.toList());
-      List<Card> whiteList = whiteCardList
-          .stream()
-          .sorted((c1, c2) -> Integer.parseInt(c2.getNumber()) - Integer.parseInt(c1.getNumber()))
-          .collect(Collectors.toList());
-      for(int i = 0; i < blackList.size(); i++){
-        if(!blackList.get(i).getNumber().equals(whiteList.get(i).getNumber())){
-          int blackMaxNumber = Integer.parseInt(blackList.get(i).getNumber());
-          int whiteMaxNumber = Integer.parseInt(whiteList.get(i).getNumber());
-          if(blackMaxNumber > whiteMaxNumber){
+      for (int i = 0; i < blackCardList.size(); i++) {
+        if (!blackCardList.get(i).getNumber().equals(whiteCardList.get(i).getNumber())) {
+          blackMaxNumber = Integer.parseInt(blackCardList.get(i).getNumber());
+          whiteMaxNumber = Integer.parseInt(whiteCardList.get(i).getNumber());
+          if (blackMaxNumber > whiteMaxNumber) {
             return UtilConstants.BLACK_WINS;
           }
-          if(blackMaxNumber < whiteMaxNumber){
+          if (blackMaxNumber < whiteMaxNumber) {
             return UtilConstants.WHITE_WINS;
           }
           return UtilConstants.TIE;
         }
       }
     }
-    if (pokerLevel.getCardType().equals(UtilConstants.PAIR)
-        || pokerLevel.getCardType().equals(UtilConstants.THREE_OF_A_KIND)
+    if (pokerLevel.getCardType().equals(UtilConstants.THREE_OF_A_KIND)
         || pokerLevel.getCardType().equals(UtilConstants.FULL_HOUSE)
         || pokerLevel.getCardType().equals(UtilConstants.FOUR_OF_A_KIND)) {
-      //判断同牌最大的牌
-
       return UtilConstants.TIE;
     }
-    if (pokerLevel.getCardType().equals(UtilConstants.TWO_PAIRS)) {
-      return UtilConstants.TIE;
+    if (pokerLevel.getCardType().equals(UtilConstants.TWO_PAIRS)
+        || pokerLevel.getCardType().equals(UtilConstants.PAIR)) {
+      ArrayList<List<Card>> blackCountCards = countCards(blackCardList);
+      ArrayList<List<Card>> whiteCountCards = countCards(whiteCardList);
+      for (int i = 0; i < blackCountCards.size(); i++) {
+        if (!blackCountCards.get(i).get(0).getNumber()
+            .equals(whiteCountCards.get(i).get(0).getNumber())) {
+          blackMaxNumber = Integer.parseInt(blackCountCards.get(i).get(0).getNumber());
+          whiteMaxNumber = Integer.parseInt(whiteCountCards.get(i).get(0).getNumber());
+          break;
+        }
+      }
+    }
+    if (blackMaxNumber > whiteMaxNumber) {
+      return UtilConstants.BLACK_WINS;
+    }
+    if (blackMaxNumber < whiteMaxNumber) {
+      return UtilConstants.WHITE_WINS;
     }
     return UtilConstants.TIE;
+  }
+
+  private List<Card> beforeCompare(String card) {
+    List<Card> blackCardList = strConvertCards(card);
+    getPokerNumber(blackCardList);
+    blackCardList
+        .sort(((c1, c2) -> Integer.parseInt(c2.getNumber()) - Integer.parseInt(c1.getNumber())));
+    return blackCardList;
   }
 
 
@@ -114,9 +126,15 @@ public class PokerGame {
   }
 
   private ArrayList<List<Card>> countCards(List<Card> cards) {
-    return new ArrayList<>(cards.stream()
+    List<List<Card>> collect = cards.stream()
         .collect(Collectors.groupingBy(Card::getNumber))
-        .values());
+        .values().stream().sorted((e1, e2) -> {
+          if (e2.size() - e1.size() != 0) {
+            return e2.size() - e1.size();
+          }
+          return Integer.parseInt(e2.get(0).getNumber()) - Integer.parseInt(e1.get(0).getNumber());
+        }).collect(Collectors.toList());
+    return (ArrayList<List<Card>>) collect;
   }
 
   private boolean isThreeOfaKind(List<Card> cards) {
