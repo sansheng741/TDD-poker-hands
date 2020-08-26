@@ -131,4 +131,16 @@ public class DemoTest {
     //then
     assertEquals(pokerLevel.getCardType(), "High Card");
   }
+
+  @Test
+  public void should_white_win_when_compare_card_give_2H3D5S9CKD_and_2C3H4S8CAH() {
+    //given
+    String whiteCard = "2H 3D 5S 9C KD";
+    String blackCard = "2C 3H 4S 8C AH";
+    //when
+    PokerGame pokerGame = new PokerGame();
+    String result = pokerGame.compareCard(whiteCard,blackCard);
+    //then
+    assertEquals(result, "White wins");
+  }
 }

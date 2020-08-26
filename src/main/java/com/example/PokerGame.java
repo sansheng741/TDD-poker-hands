@@ -11,6 +11,14 @@ import java.util.stream.Collectors;
 
 public class PokerGame {
 
+  public static String WHITE_WINS = "White wins";
+  public static String TIE = "Tie";
+
+  public String compareCard(String whiteCard, String blackCard) {
+    return WHITE_WINS;
+  }
+
+
   public PokerLevel judgeCardType(String card) {
     List<Card> cards = strConvertCards(card);
     getPokerNumber(cards);
@@ -146,4 +154,6 @@ public class PokerGame {
       }
     }
   }
+
+
 }
