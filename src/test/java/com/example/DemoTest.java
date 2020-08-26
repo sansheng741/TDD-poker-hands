@@ -55,4 +55,15 @@ public class DemoTest {
     assertEquals(pokerLevel.getCardType(), "Four of a Kind");
   }
 
+  @Test
+  public void should_return_four_of_a_kind_when_judge_card_type_give_3H3D5S5C3D() {
+    //given
+    String card = "3H 3D 5S 5C 3D";
+    //when
+    PokerGame pokerGame = new PokerGame();
+    PokerLevel pokerLevel = pokerGame.judgeCardType(card);
+    //then
+    assertEquals(pokerLevel.getCardType(), "Full House");
+  }
+
 }

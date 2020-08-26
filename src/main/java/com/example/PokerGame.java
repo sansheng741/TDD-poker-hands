@@ -19,9 +19,18 @@ public class PokerGame {
       return PokerLevel.STRAIGHT_FLUSH;
     } else if (isFourOfaKind(cards)) {
       return PokerLevel.FOUR_OF_A_KIND;
+    } else if(isFullHouse(cards)){
+      return PokerLevel.FULL_HOUSE;
     }
 
     return PokerLevel.HIGH_CARD;
+  }
+
+  private boolean isFullHouse(List<Card> cards) {
+    ArrayList<List<Card>> lists = new ArrayList<>(cards.stream()
+        .collect(Collectors.groupingBy(Card::getNumber))
+        .values());
+    return (lists.get(0).size() == 3 && lists.get(1).size() == 2) || (lists.get(0).size() == 2 && lists.get(1).size() == 3);
   }
 
   private boolean isFourOfaKind(List<Card> cards) {
