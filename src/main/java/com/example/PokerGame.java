@@ -1,7 +1,6 @@
 package com.example;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -12,10 +11,20 @@ import java.util.stream.Collectors;
 public class PokerGame {
 
   public static String WHITE_WINS = "White wins";
+  public static String BLACK_WINS = "Black wins";
   public static String TIE = "Tie";
 
-  public String compareCard(String whiteCard, String blackCard) {
-    return WHITE_WINS;
+  public String compareCard(String blackCard, String whiteCard) {
+    PokerLevel blackCardLevel = judgeCardType(blackCard);
+    PokerLevel whiteCardLevel = judgeCardType(whiteCard);
+
+    if (whiteCardLevel.getLevel() > blackCardLevel.getLevel()) {
+      return WHITE_WINS;
+    } else if (whiteCardLevel.getLevel() < blackCardLevel.getLevel()) {
+      return BLACK_WINS;
+    } else {
+      return TIE;
+    }
   }
 
 
@@ -27,17 +36,17 @@ public class PokerGame {
       return PokerLevel.STRAIGHT_FLUSH;
     } else if (isFourOfaKind(cards)) {
       return PokerLevel.FOUR_OF_A_KIND;
-    } else if(isFullHouse(cards)){
+    } else if (isFullHouse(cards)) {
       return PokerLevel.FULL_HOUSE;
-    } else if(isFlush(cards)){
+    } else if (isFlush(cards)) {
       return PokerLevel.FLUSH;
-    } else if(isStraight(cards)){
-      return  PokerLevel.STRAIGHT;
-    } else if(isThreeOfaKind(cards)){
-      return  PokerLevel.THREE_OF_A_KIND;
-    } else if(isTwoPairs(cards)){
+    } else if (isStraight(cards)) {
+      return PokerLevel.STRAIGHT;
+    } else if (isThreeOfaKind(cards)) {
+      return PokerLevel.THREE_OF_A_KIND;
+    } else if (isTwoPairs(cards)) {
       return PokerLevel.TWO_PAIRS;
-    } else if(isPair(cards)){
+    } else if (isPair(cards)) {
       return PokerLevel.PAIR;
     } else {
       return PokerLevel.HIGH_CARD;
@@ -48,7 +57,7 @@ public class PokerGame {
     ArrayList<List<Card>> lists = countCards(cards);
     int maxNumber = 0;
     for (List<Card> list : lists) {
-      if(list.size() > maxNumber){
+      if (list.size() > maxNumber) {
         maxNumber = list.size();
       }
     }
@@ -71,7 +80,7 @@ public class PokerGame {
     ArrayList<List<Card>> lists = countCards(cards);
     int maxNumber = 0;
     for (List<Card> list : lists) {
-      if(list.size() > maxNumber){
+      if (list.size() > maxNumber) {
         maxNumber = list.size();
       }
     }
@@ -80,14 +89,15 @@ public class PokerGame {
 
   private boolean isFullHouse(List<Card> cards) {
     ArrayList<List<Card>> lists = countCards(cards);
-    return (lists.get(0).size() == 3 && lists.get(1).size() == 2) || (lists.get(0).size() == 2 && lists.get(1).size() == 3);
+    return (lists.get(0).size() == 3 && lists.get(1).size() == 2) || (lists.get(0).size() == 2
+        && lists.get(1).size() == 3);
   }
 
   private boolean isFourOfaKind(List<Card> cards) {
     ArrayList<List<Card>> lists = countCards(cards);
     int maxNumber = 0;
     for (List<Card> list : lists) {
-      if(list.size() > maxNumber){
+      if (list.size() > maxNumber) {
         maxNumber = list.size();
       }
     }
