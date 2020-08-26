@@ -166,7 +166,18 @@ public class DemoTest {
     String result = pokerGame.compareCard(blackCard, whiteCard);
     //then
     assertEquals(result, "Black wins");
+  }
 
+    @Test
+  public void should_return_tie_when_compare_card_give_2H3D5S9CKD_and_2D3H5C9SKH() {
+    //given
+    String blackCard = "2H 3D 5S 9C KD";
+    String whiteCard = "2D 3H 5C 9S KH";
+    //when
+    PokerGame pokerGame = new PokerGame();
+    String result = pokerGame.compareCard(blackCard, whiteCard);
+    //then
+    assertEquals(result, "Tie");
   }
 
 }
