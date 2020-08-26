@@ -203,4 +203,16 @@ public class DemoTest {
     //then
     assertEquals(result, "Black wins");
   }
+
+  @Test
+  public void should_return_white_win_when_compare_card_give_2D9CASAHAC_and_3D6D7DTDQD(){
+    //given
+    String blackCard = "2D 9C AS AH AC";
+    String whiteCard = "3D 6D 7D TD QD";
+    //when
+    PokerGame pokerGame = new PokerGame();
+    String result = pokerGame.compareCard(blackCard, whiteCard);
+    //then
+    assertEquals(result, "White wins");
+  }
 }
