@@ -27,9 +27,19 @@ public class PokerGame {
       return  PokerLevel.STRAIGHT;
     } else if(isThreeOfaKind(cards)){
       return  PokerLevel.THREE_OF_A_KIND;
+    } else if(isTwoPairs(cards)){
+      return PokerLevel.TWO_PAIRS;
     }
 
     return PokerLevel.HIGH_CARD;
+  }
+
+  private boolean isTwoPairs(List<Card> cards) {
+    ArrayList<List<Card>> lists = new ArrayList<>(cards.stream()
+        .collect(Collectors.groupingBy(Card::getNumber))
+        .values());
+
+    return lists.get(0).size() == 2 && lists.get(1).size() == 2;
   }
 
   private boolean isThreeOfaKind(List<Card> cards) {

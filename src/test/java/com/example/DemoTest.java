@@ -78,7 +78,7 @@ public class DemoTest {
   }
 
   @Test
-  public void should_return_flush_when_judge_card_type_give_3H4D5S6C7D() {
+  public void should_return_Straight_when_judge_card_type_give_3H4D5S6C7D() {
     //given
     String card = "3H 4D 5S 6C 7D";
     //when
@@ -89,7 +89,7 @@ public class DemoTest {
   }
 
   @Test
-  public void should_return_flush_when_judge_card_type_give_3H3D5S9C3D() {
+  public void should_return_three_of_a_Kind_when_judge_card_type_give_3H3D5S9C3D() {
     //given
     String card = "3H 3D 5S 9C 3D";
     //when
@@ -97,5 +97,16 @@ public class DemoTest {
     PokerLevel pokerLevel = pokerGame.judgeCardType(card);
     //then
     assertEquals(pokerLevel.getCardType(), "three of a Kind");
+  }
+
+  @Test
+  public void should_return_two_pairs_when_judge_card_type_give_3H3D5S9C5D() {
+    //given
+    String card = "3H 3D 5S 9C 5D";
+    //when
+    PokerGame pokerGame = new PokerGame();
+    PokerLevel pokerLevel = pokerGame.judgeCardType(card);
+    //then
+    assertEquals(pokerLevel.getCardType(), "Two Pairs");
   }
 }
