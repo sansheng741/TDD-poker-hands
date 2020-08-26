@@ -23,6 +23,8 @@ public class PokerGame {
       return PokerLevel.FULL_HOUSE;
     } else if(isFlush(cards)){
       return PokerLevel.FLUSH;
+    } else if(isStraight(cards)){
+      return  PokerLevel.STRAIGHT;
     }
 
     return PokerLevel.HIGH_CARD;
