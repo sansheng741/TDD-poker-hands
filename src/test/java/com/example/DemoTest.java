@@ -147,12 +147,26 @@ public class DemoTest {
   @Test
   public void should_return_black_win_when_compare_card_give_2H4S5C2D4H_2S8SASQS3S() {
     //given
-    String whiteCard = "2S 8S AS QS 3S";
     String blackCard = "2H 4S 4C 2D 4H";
+    String whiteCard = "2S 8S AS QS 3S";
     //when
     PokerGame pokerGame = new PokerGame();
     String result = pokerGame.compareCard(blackCard, whiteCard);
     //then
     assertEquals(result, "Black wins");
   }
+
+  @Test
+  public void should_return_black_win_when_compare_card_give_2H3D5S9CKD_and_2C3H4S8CKH() {
+    //given
+    String blackCard = "2H 3D 5S 9C KD";
+    String whiteCard = "2C 3H 4S 8C KH";
+    //when
+    PokerGame pokerGame = new PokerGame();
+    String result = pokerGame.compareCard(blackCard, whiteCard);
+    //then
+    assertEquals(result, "Black wins");
+
+  }
+
 }

@@ -10,21 +10,64 @@ import java.util.stream.Collectors;
 
 public class PokerGame {
 
-  public static String WHITE_WINS = "White wins";
-  public static String BLACK_WINS = "Black wins";
-  public static String TIE = "Tie";
 
   public String compareCard(String blackCard, String whiteCard) {
     PokerLevel blackCardLevel = judgeCardType(blackCard);
     PokerLevel whiteCardLevel = judgeCardType(whiteCard);
 
     if (whiteCardLevel.getLevel() > blackCardLevel.getLevel()) {
-      return WHITE_WINS;
-    } else if (whiteCardLevel.getLevel() < blackCardLevel.getLevel()) {
-      return BLACK_WINS;
-    } else {
-      return TIE;
+      return UtilConstants.WHITE_WINS;
     }
+    if (whiteCardLevel.getLevel() < blackCardLevel.getLevel()) {
+      return UtilConstants.BLACK_WINS;
+    }
+   return compareNumber(blackCard, whiteCard, blackCardLevel);
+  }
+
+  private String compareNumber(String blackCard, String whiteCard, PokerLevel pokerLevel) {
+    List<Card> blackCardList = strConvertCards(blackCard);
+    getPokerNumber(blackCardList);
+    List<Card> whiteCardList = strConvertCards(whiteCard);
+    getPokerNumber(whiteCardList);
+    if (pokerLevel.getCardType().equals(UtilConstants.HIGH_CARD)
+        || pokerLevel.getCardType().equals(UtilConstants.STRAIGHT)
+        || pokerLevel.getCardType().equals(UtilConstants.FLUSH)
+        || pokerLevel.getCardType().equals(UtilConstants.STRAIGHT_FLUSH)) {
+      //只需判断最大的牌
+      List<Card> blackList = blackCardList
+          .stream()
+          .sorted((c1, c2) -> Integer.parseInt(c2.getNumber()) - Integer.parseInt(c1.getNumber()))
+          .collect(Collectors.toList());
+      List<Card> whiteList = whiteCardList
+          .stream()
+          .sorted((c1, c2) -> Integer.parseInt(c2.getNumber()) - Integer.parseInt(c1.getNumber()))
+          .collect(Collectors.toList());
+      for(int i = 0; i < blackList.size(); i++){
+        if(!blackList.get(i).getNumber().equals(whiteList.get(i).getNumber())){
+          int blackMaxNumber = Integer.parseInt(blackList.get(i).getNumber());
+          int whiteMaxNumber = Integer.parseInt(whiteList.get(i).getNumber());
+          if(blackMaxNumber > whiteMaxNumber){
+            return UtilConstants.BLACK_WINS;
+          }
+          if(blackMaxNumber < whiteMaxNumber){
+            return UtilConstants.WHITE_WINS;
+          }
+          return UtilConstants.TIE;
+        }
+      }
+    }
+    if (pokerLevel.getCardType().equals(UtilConstants.PAIR)
+        || pokerLevel.getCardType().equals(UtilConstants.THREE_OF_A_KIND)
+        || pokerLevel.getCardType().equals(UtilConstants.FULL_HOUSE)
+        || pokerLevel.getCardType().equals(UtilConstants.FOUR_OF_A_KIND)) {
+      //判断同牌最大的牌
+
+      return UtilConstants.TIE;
+    }
+    if (pokerLevel.getCardType().equals(UtilConstants.TWO_PAIRS)) {
+      return UtilConstants.TIE;
+    }
+    return UtilConstants.TIE;
   }
 
 
@@ -108,8 +151,7 @@ public class PokerGame {
   private boolean isStraight(List<Card> cards) {
     List<Card> collect = cards.stream().sorted((c1, c2) -> {
       return c1.getNumber().compareToIgnoreCase(c2.getNumber());
-    }).collect(
-        Collectors.toList());
+    }).collect(Collectors.toList());
     for (int i = 0; i < collect.size() - 1; i++) {
       if (Integer.parseInt(collect.get(i).getNumber()) + 1 != Integer
           .parseInt(collect.get(i + 1).getNumber())) {
