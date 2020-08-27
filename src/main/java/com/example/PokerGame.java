@@ -56,8 +56,7 @@ public class PokerGame {
 
 
   public PokerLevel judgeCardType(String card) {
-    List<Card> cards = strConvertCards(card);
-    getPokerNumber(cards);
+    List<Card> cards = beforeCompare(card);
 
     if (isFlush(cards) && isStraight(cards)) {
       return PokerLevel.STRAIGHT_FLUSH;
