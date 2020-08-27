@@ -126,11 +126,9 @@ public class PokerGame {
     return maxNumber == 3;
   }
 
-  //TODO refactor
   private boolean isFullHouse(List<Card> cards) {
     ArrayList<List<Card>> lists = countCards(cards);
-    return (lists.get(0).size() == 3 && lists.get(1).size() == 2) || (lists.get(0).size() == 2
-        && lists.get(1).size() == 3);
+    return lists.get(0).size() == 3 && lists.get(1).size() == 2;
   }
 
   private boolean isFourOfaKind(List<Card> cards) {
