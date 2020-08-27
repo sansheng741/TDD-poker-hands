@@ -28,50 +28,15 @@ public class PokerGame {
     int blackMaxNumber = 0, whiteMaxNumber = 0;
     List<Card> blackCardList = beforeCompare(blackCard);
     List<Card> whiteCardList = beforeCompare(whiteCard);
-    if (pokerLevel.getCardType().equals(UtilConstants.HIGH_CARD)
-        || pokerLevel.getCardType().equals(UtilConstants.STRAIGHT)
-        || pokerLevel.getCardType().equals(UtilConstants.FLUSH)
-        || pokerLevel.getCardType().equals(UtilConstants.STRAIGHT_FLUSH)) {
-      //只需判断最大的牌
-      for (int i = 0; i < blackCardList.size(); i++) {
-        if (!blackCardList.get(i).getNumber().equals(whiteCardList.get(i).getNumber())) {
-          blackMaxNumber = Integer.parseInt(blackCardList.get(i).getNumber());
-          whiteMaxNumber = Integer.parseInt(whiteCardList.get(i).getNumber());
-          if (blackMaxNumber > whiteMaxNumber) {
-            return UtilConstants.BLACK_WINS;
-          }
-          if (blackMaxNumber < whiteMaxNumber) {
-            return UtilConstants.WHITE_WINS;
-          }
-          return UtilConstants.TIE;
-        }
-      }
-    }
-    if (pokerLevel.getCardType().equals(UtilConstants.THREE_OF_A_KIND)
-        || pokerLevel.getCardType().equals(UtilConstants.FULL_HOUSE)
-        || pokerLevel.getCardType().equals(UtilConstants.FOUR_OF_A_KIND)) {
-      ArrayList<List<Card>> blackCountCards = countCards(blackCardList);
-      ArrayList<List<Card>> whiteCountCards = countCards(whiteCardList);
-      for (int i = 0; i < blackCountCards.size(); i++) {
-        if (!blackCountCards.get(i).get(0).getNumber()
-            .equals(whiteCountCards.get(i).get(0).getNumber())) {
-          blackMaxNumber = Integer.parseInt(blackCountCards.get(i).get(0).getNumber());
-          whiteMaxNumber = Integer.parseInt(whiteCountCards.get(i).get(0).getNumber());
-          break;
-        }
-      }
-    }
-    if (pokerLevel.getCardType().equals(UtilConstants.TWO_PAIRS)
-        || pokerLevel.getCardType().equals(UtilConstants.PAIR)) {
-      ArrayList<List<Card>> blackCountCards = countCards(blackCardList);
-      ArrayList<List<Card>> whiteCountCards = countCards(whiteCardList);
-      for (int i = 0; i < blackCountCards.size(); i++) {
-        if (!blackCountCards.get(i).get(0).getNumber()
-            .equals(whiteCountCards.get(i).get(0).getNumber())) {
-          blackMaxNumber = Integer.parseInt(blackCountCards.get(i).get(0).getNumber());
-          whiteMaxNumber = Integer.parseInt(whiteCountCards.get(i).get(0).getNumber());
-          break;
-        }
+
+    ArrayList<List<Card>> blackCountCards = countCards(blackCardList);
+    ArrayList<List<Card>> whiteCountCards = countCards(whiteCardList);
+    for (int i = 0; i < blackCountCards.size(); i++) {
+      if (!blackCountCards.get(i).get(0).getNumber()
+          .equals(whiteCountCards.get(i).get(0).getNumber())) {
+        blackMaxNumber = Integer.parseInt(blackCountCards.get(i).get(0).getNumber());
+        whiteMaxNumber = Integer.parseInt(whiteCountCards.get(i).get(0).getNumber());
+        break;
       }
     }
     if (blackMaxNumber > whiteMaxNumber) {
@@ -239,6 +204,4 @@ public class PokerGame {
       }
     }
   }
-
-
 }
