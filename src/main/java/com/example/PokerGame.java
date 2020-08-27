@@ -21,10 +21,10 @@ public class PokerGame {
     if (whiteCardLevel.getLevel() < blackCardLevel.getLevel()) {
       return UtilConstants.BLACK_WINS;
     }
-    return compareNumber(blackCard, whiteCard, blackCardLevel);
+    return compareNumber(blackCard, whiteCard);
   }
 
-  private String compareNumber(String blackCard, String whiteCard, PokerLevel pokerLevel) {
+  private String compareNumber(String blackCard, String whiteCard) {
     int blackMaxNumber = 0, whiteMaxNumber = 0;
     List<Card> blackCardList = beforeCompare(blackCard);
     List<Card> whiteCardList = beforeCompare(whiteCard);
