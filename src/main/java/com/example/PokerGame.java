@@ -51,8 +51,6 @@ public class PokerGame {
   private List<Card> beforeCompare(String card) {
     List<Card> blackCardList = strConvertCards(card);
     getPokerNumber(blackCardList);
-    blackCardList
-        .sort(((c1, c2) -> Integer.parseInt(c2.getNumber()) - Integer.parseInt(c1.getNumber())));
     return blackCardList;
   }
 
@@ -128,6 +126,7 @@ public class PokerGame {
     return maxNumber == 3;
   }
 
+  //TODO refactor
   private boolean isFullHouse(List<Card> cards) {
     ArrayList<List<Card>> lists = countCards(cards);
     return (lists.get(0).size() == 3 && lists.get(1).size() == 2) || (lists.get(0).size() == 2
